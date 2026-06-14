@@ -7,19 +7,11 @@ import {
   Download, 
   AlertTriangle, 
   CheckCircle2, 
-  Sparkles, 
   RefreshCw,
   Copy,
   Check,
   RotateCcw
 } from 'lucide-react';
-
-const PRESETS = [
-  { label: 'Item Serial', text: 'SN-9823-A42' },
-  { label: 'E-Ticket ID', text: 'TKT-77889922' },
-  { label: 'Promo Code', text: 'SUMMER50OFF' },
-  { label: 'URL / Link', text: 'https://vite.dev' }
-];
 
 const PRESET_COLORS = [
   { name: 'Classic Monochrome', line: '#000000', bg: '#ffffff' },
@@ -299,29 +291,6 @@ export default function App() {
                 )}
               </div>
 
-              {/* Presets Quick Picker */}
-              <div className="flex flex-col gap-2">
-                <span className="text-xs font-semibold text-slate-400 flex items-center gap-1">
-                  <Sparkles className="w-3 h-3 text-indigo-400" />
-                  <span>Try Sample Data Presets</span>
-                </span>
-                <div className="flex flex-wrap gap-2">
-                  {PRESETS.map((preset, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setText(preset.text)}
-                      className={`text-xs px-3 py-1.5 rounded-lg border transition-all ${
-                        text === preset.text 
-                          ? 'bg-indigo-600/20 border-indigo-500 text-indigo-300' 
-                          : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-200'
-                      }`}
-                    >
-                      {preset.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
               {/* Sliders Grid */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
                 {/* Bar Width */}
@@ -464,8 +433,8 @@ export default function App() {
                 {/* Display Value Text Toggle */}
                 <div className="flex flex-col justify-between md:border-l md:border-slate-800/80 md:pl-6">
                   <div className="flex flex-col gap-1">
-                    <span className="text-sm font-semibold text-slate-300">Human-Readable Text</span>
-                    <p className="text-xs text-slate-500">Show or hide the original characters directly beneath the barcode bars.</p>
+                    <span className="text-sm font-semibold text-slate-300">Teks yang Dapat Dibaca</span>
+                    <p className="text-xs text-slate-500">Tampilkan atau sembunyikan karakter asli tepat di bawah batang barcode.</p>
                   </div>
                   
                   <div className="flex items-center gap-3 mt-3">
@@ -484,7 +453,7 @@ export default function App() {
                       />
                     </button>
                     <span className="text-xs font-medium text-slate-300">
-                      {displayValue ? 'Show Below Barcode' : 'Hide Text'}
+                      {displayValue ? 'Tampilkan di Bawah Barcode' : 'Sembunyikan Teks'}
                     </span>
                   </div>
                 </div>
