@@ -219,9 +219,9 @@ export default function App() {
 
   return (
     <div className="min-h-screen relative overflow-hidden flex flex-col justify-between py-4 px-4 sm:py-8 sm:px-6 lg:px-8">
-      {/* Decorative background glows */}
-      <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-500/10 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-violet-600/10 blur-[120px] pointer-events-none" />
+      {/* Decorative background glows - hidden on mobile to optimize performance */}
+      <div className="hidden lg:block absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-500/10 blur-[120px] pointer-events-none" />
+      <div className="hidden lg:block absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-violet-600/10 blur-[120px] pointer-events-none" />
 
       {/* Header */}
       <header className="max-w-6xl w-full mx-auto mb-6 sm:mb-10 text-center z-10">
