@@ -44,11 +44,26 @@ export default function App() {
   const [copied, setCopied] = useState(false);
   const [isRendering, setIsRendering] = useState(false);
 
+  // Debounce state for text input to prevent mobile typing lag
+  const [debouncedText, setDebouncedText] = useState(text);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedText(text);
+    }, 150); // 150ms sweet spot for smooth typing feedback
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [text]);
+
+  const isPending = text !== debouncedText || isRendering;
+
   const svgRef = useRef(null);
 
   // Validation function: Code 128 supports standard ASCII (0 - 127)
   const validateInput = (input) => {
-    if (!input) return 'Input cannot be empty';
+    if (!input) return null; // Empty input is treated as a clean blank state, not an error
     const isAsciiOnly = /^[\x00-\x7F]*$/.test(input);
     if (!isAsciiOnly) {
       return 'Contains unsupported characters. Code 128 only supports standard ASCII (0-127).';
@@ -66,14 +81,20 @@ export default function App() {
     // Clear previous contents to prevent redraw issues and stacking elements
     svgElement.innerHTML = '';
 
-    if (validationError) {
-      setError(validationError);
+    if (!debouncedText) {
+      setError(null);
+      return;
+    }
+
+    const currentValidationError = validateInput(debouncedText);
+    if (currentValidationError) {
+      setError(currentValidationError);
       return;
     }
 
     setIsRendering(true);
     try {
-      JsBarcode(svgElement, text, {
+      JsBarcode(svgElement, debouncedText, {
         format: 'CODE128',
         width: Number(width),
         height: Number(height),
@@ -97,7 +118,7 @@ export default function App() {
     } finally {
       setIsRendering(false);
     }
-  }, [text, width, height, margin, displayValue, lineColor, background, validationError]);
+  }, [debouncedText, width, height, margin, displayValue, lineColor, background]);
 
   // Export handlers
   const handleDownloadSvg = () => {
@@ -265,6 +286,10 @@ export default function App() {
                   <div className="flex items-start gap-2 text-xs text-red-400 bg-red-950/40 border border-red-500/20 rounded-lg p-3 mt-1">
                     <AlertTriangle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
                     <span>{validationError}</span>
+                  </div>
+                ) : !text ? (
+                  <div className="flex items-center gap-1.5 text-xs text-slate-500 pl-1">
+                    <span>Ready to encode characters (ASCII only)</span>
                   </div>
                 ) : (
                   <div className="flex items-center gap-1.5 text-xs text-emerald-400/90 pl-1">
@@ -481,7 +506,7 @@ export default function App() {
                 
                 {/* Real-time indicator badge */}
                 <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-indigo-950/60 border border-indigo-500/20 text-[10px] text-indigo-400 font-semibold uppercase tracking-wider">
-                  <RefreshCw className={`w-3 h-3 ${isRendering ? 'animate-spin' : ''}`} />
+                  <RefreshCw className={`w-3 h-3 ${isPending ? 'animate-spin' : ''}`} />
                   <span>Real-time</span>
                 </div>
               </div>
@@ -502,6 +527,14 @@ export default function App() {
                     <AlertTriangle className="w-8 h-8 text-amber-500" />
                     <h3 className="text-sm font-semibold text-slate-300">Cannot Render Barcode</h3>
                     <p className="text-xs text-slate-500 leading-relaxed">{error}</p>
+                  </div>
+                ) : !text ? (
+                  <div className="z-10 flex flex-col items-center gap-3 max-w-[80%] text-center py-6">
+                    <Barcode className="w-12 h-12 text-slate-600 animate-pulse" />
+                    <h3 className="text-sm font-semibold text-slate-400">Waiting for Input</h3>
+                    <p className="text-xs text-slate-500 leading-relaxed">
+                      Type some characters in the data box to generate and preview your barcode in real-time.
+                    </p>
                   </div>
                 ) : (
                   <div 
@@ -527,9 +560,9 @@ export default function App() {
                   {/* Download PNG */}
                   <button
                     onClick={handleDownloadPng}
-                    disabled={!!error}
+                    disabled={!!error || !text || isPending}
                     className={`flex items-center justify-center gap-2 font-semibold text-sm py-3 px-4 rounded-xl border transition-all ${
-                      error
+                      error || !text || isPending
                         ? 'bg-slate-900 border-slate-800 text-slate-600 cursor-not-allowed'
                         : 'bg-indigo-600 border-indigo-500 text-white hover:bg-indigo-500 hover:shadow-[0_0_15px_rgba(99,102,241,0.4)] hover:-translate-y-0.5 active:translate-y-0 active:shadow-none'
                     }`}
@@ -541,9 +574,9 @@ export default function App() {
                   {/* Download SVG */}
                   <button
                     onClick={handleDownloadSvg}
-                    disabled={!!error}
+                    disabled={!!error || !text || isPending}
                     className={`flex items-center justify-center gap-2 font-semibold text-sm py-3 px-4 rounded-xl border transition-all ${
-                      error
+                      error || !text || isPending
                         ? 'bg-slate-900 border-slate-800 text-slate-600 cursor-not-allowed'
                         : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700/80 hover:text-slate-100 hover:-translate-y-0.5 active:translate-y-0'
                     }`}
