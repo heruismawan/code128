@@ -197,25 +197,25 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden flex flex-col justify-between py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen relative overflow-hidden flex flex-col justify-between py-4 px-4 sm:py-8 sm:px-6 lg:px-8">
       {/* Decorative background glows */}
       <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-500/10 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-violet-600/10 blur-[120px] pointer-events-none" />
 
       {/* Header */}
-      <header className="max-w-6xl w-full mx-auto mb-10 text-center z-10">
-        <h1 className="text-4xl sm:text-6xl font-black tracking-tight bg-gradient-to-r from-indigo-200 via-indigo-400 to-violet-400 bg-clip-text text-transparent drop-shadow-lg">
+      <header className="max-w-6xl w-full mx-auto mb-6 sm:mb-10 text-center z-10">
+        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight bg-gradient-to-r from-indigo-200 via-indigo-400 to-violet-400 bg-clip-text text-transparent drop-shadow-lg px-2">
           Code 128 Barcode Generator
         </h1>
       </header>
 
       {/* Main App Workspace */}
-      <main className="max-w-6xl w-full mx-auto flex-grow flex items-center justify-center z-10 mb-8">
+      <main className="max-w-6xl w-full mx-auto flex-grow flex items-center justify-center z-10 mb-6 sm:mb-8">
         <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           
           {/* Left Column: Configuration Controls (lg:col-span-7) */}
-          <section className="lg:col-span-7 flex flex-col gap-6">
-            <div className="glass-card rounded-2xl p-6 flex flex-col gap-6 shadow-2xl relative overflow-hidden">
+          <section className="order-2 lg:order-1 lg:col-span-7 flex flex-col gap-6">
+            <div className="glass-card rounded-2xl p-4 sm:p-6 flex flex-col gap-5 sm:gap-6 shadow-2xl relative overflow-hidden">
               <div className="absolute top-0 left-0 w-1 h-full bg-indigo-500" />
               
               <div className="flex items-center justify-between border-b border-slate-800 pb-4">
@@ -247,15 +247,15 @@ export default function App() {
                     placeholder="Enter text/numbers to encode..."
                     className={`w-full bg-slate-900/80 border ${
                       validationError ? 'border-red-500/50 focus:border-red-500 focus:ring-red-500/20' : 'border-slate-700 focus:border-indigo-500 focus:ring-indigo-500/20'
-                    } rounded-xl px-4 py-3 text-slate-100 font-mono placeholder-slate-500 focus:ring-4 outline-none transition-all pr-24`}
+                    } rounded-xl px-4 py-3 text-slate-100 font-mono placeholder-slate-500 focus:ring-4 outline-none transition-all pr-12`}
                   />
                   <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
                     <button
                       onClick={handleCopyText}
-                      className="p-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition-all"
+                      className="p-2.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition-all"
                       title="Copy barcode text"
                     >
-                      {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                      {copied ? <Check className="w-4.5 h-4.5 text-emerald-400" /> : <Copy className="w-4.5 h-4.5" />}
                     </button>
                   </div>
                 </div>
@@ -298,7 +298,7 @@ export default function App() {
               </div>
 
               {/* Sliders Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
                 {/* Bar Width */}
                 <div className="flex flex-col gap-2">
                   <div className="flex justify-between text-xs font-semibold text-slate-300">
@@ -371,17 +371,17 @@ export default function App() {
                   <span className="text-sm font-semibold text-slate-300">Color Palette</span>
                   <div className="flex gap-4">
                     {/* Bar Color */}
-                    <div className="flex items-center gap-2">
-                      <div className="relative">
+                    <div className="flex items-center gap-3">
+                      <div className="relative w-10 h-10">
                         <input
                           type="color"
                           id="barColorPicker"
                           value={lineColor}
                           onChange={(e) => setLineColor(e.target.value)}
-                          className="w-8 h-8 rounded-lg cursor-pointer border-0 bg-transparent opacity-0 absolute inset-0"
+                          className="w-10 h-10 rounded-lg cursor-pointer border-0 bg-transparent opacity-0 absolute inset-0 z-10"
                         />
                         <div 
-                          className="w-8 h-8 rounded-lg border border-slate-700 shadow-inner"
+                          className="w-10 h-10 rounded-lg border border-slate-700 shadow-inner absolute inset-0"
                           style={{ backgroundColor: lineColor }}
                         />
                       </div>
@@ -392,17 +392,17 @@ export default function App() {
                     </div>
 
                     {/* Background Color */}
-                    <div className="flex items-center gap-2">
-                      <div className="relative">
+                    <div className="flex items-center gap-3">
+                      <div className="relative w-10 h-10">
                         <input
                           type="color"
                           id="bgColorPicker"
                           value={background}
                           onChange={(e) => setBackground(e.target.value)}
-                          className="w-8 h-8 rounded-lg cursor-pointer border-0 bg-transparent opacity-0 absolute inset-0"
+                          className="w-10 h-10 rounded-lg cursor-pointer border-0 bg-transparent opacity-0 absolute inset-0 z-10"
                         />
                         <div 
-                          className="w-8 h-8 rounded-lg border border-slate-700 shadow-inner"
+                          className="w-10 h-10 rounded-lg border border-slate-700 shadow-inner absolute inset-0"
                           style={{ backgroundColor: background }}
                         />
                       </div>
@@ -469,8 +469,8 @@ export default function App() {
           </section>
 
           {/* Right Column: Live Preview & Downloads (lg:col-span-5) */}
-          <section className="lg:col-span-5 flex flex-col gap-6">
-            <div className="glass-card rounded-2xl p-6 flex flex-col justify-between gap-6 shadow-2xl relative overflow-hidden h-full min-h-[420px]">
+          <section className="order-1 lg:order-2 lg:col-span-5 flex flex-col gap-6">
+            <div className="glass-card rounded-2xl p-4 sm:p-6 flex flex-col justify-between gap-4 sm:gap-6 shadow-2xl relative overflow-hidden h-full min-h-[280px] sm:min-h-[360px]">
               <div className="absolute top-0 left-0 w-1 h-full bg-indigo-500" />
               
               <div className="flex items-center justify-between border-b border-slate-800 pb-4">
@@ -505,13 +505,13 @@ export default function App() {
                   </div>
                 ) : (
                   <div 
-                    className="z-10 flex items-center justify-center p-6 rounded-xl shadow-2xl transition-all duration-300 hover:scale-[1.02]"
+                    className="z-10 flex items-center justify-center p-4 sm:p-6 rounded-xl shadow-2xl transition-all duration-300 hover:scale-[1.02]"
                     style={{ 
                       backgroundColor: background,
                       border: `1px solid ${lineColor}20`
                     }}
                   >
-                    <svg ref={svgRef} className="max-w-full block" />
+                    <svg ref={svgRef} className="max-w-full h-auto block" />
                   </div>
                 )}
               </div>
@@ -523,7 +523,7 @@ export default function App() {
                   <span className="text-[10px] text-slate-600 font-mono">Prints at 300 DPI</span>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 min-[450px]:grid-cols-2 gap-3">
                   {/* Download PNG */}
                   <button
                     onClick={handleDownloadPng}
